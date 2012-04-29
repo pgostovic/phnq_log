@@ -1,0 +1,39 @@
+{
+    "name": "phnq_log", 
+
+    "description": "JavaScript logging utility",
+
+    "version": "1.0",
+
+    "keywords": [ "logging", "client", "server" ],
+
+    "maintainers":
+    [
+    	{
+    		"name": "Patrick Gostovic",
+    		"email": "pg@phnq.org"
+    	}
+    ], 
+
+    "contributors":
+    [
+    	{
+    		"name": "Patrick Gostovic",
+    		"email": "pg@phnq.org"
+    	}
+    ],
+
+    "bugs": "mailto:pg@phnq.org",
+
+	"licenses":
+	[
+	   {
+	       "type": "GPLv2",
+	       "url": "http://www.example.com/licenses/gpl.html",
+	   }
+	],
+
+    "author": "Patrick Gostovic <pg@phnq.org>", 
+
+    "main": "./phnq_log.js"
+}
