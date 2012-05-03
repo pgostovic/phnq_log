@@ -1,5 +1,7 @@
 (function()
 {
+	var phnq_core = require("phnq_core");
+
 	var loggingEnabled = false;
 	try
 	{
@@ -23,60 +25,63 @@
 		var s = new String(arg);
 		if(s.length < 2)
 			s = "0"+s;
-		
+
 		return s;
 	};
 
-	var Logger = function(category)
+	var Logger = phnq_core.clazz(
 	{
-		this.category = category
-		this.startTime = null;
-	};
-
-	Logger.prototype.append = function(/* levelName, level, arg1, arg2, ... */)
-	{
-		var levelName = arguments[0];
-		
-		var d = new Date();
-		var buf = [];
-		buf.push(d.getFullYear());
-		buf.push("-");
-		buf.push(pad2(d.getMonth()+1));
-		buf.push("-");
-		buf.push(pad2(d.getDate()));
-		buf.push(" ");
-		buf.push(pad2(d.getHours()));
-		buf.push(":");
-		buf.push(pad2(d.getMinutes()));
-		buf.push(":");
-		buf.push(pad2(d.getSeconds()));
-		buf.push(".");
-		buf.push(d.getMilliseconds());
-		buf.push(" ["+levelName+"] ");
-		buf.push(this.category);
-		if(this.startTime)
+		init: function(category)
 		{
-			var t = new Date().getTime()-this.startTime;
-			buf.push((" ("+t+"ms)"));
+			this.category = category
 			this.startTime = null;
-		}
-		buf.push(" -");
-		
-		var args = [buf.join("")];
-		var argsLen = arguments.length;
-		for(var i=2; i<argsLen; i++)
-		{
-			args.push(arguments[i]);
-		}
-		
-		if(loggingEnabled)
-			console.log.apply(console, args);
-	};
+		},
 
-	Logger.prototype.startTimer = function()
-	{
-		this.startTime = new Date().getTime();
-	};
+		append: function(/* levelName, level, arg1, arg2, ... */)
+		{
+			var levelName = arguments[0];
+
+			var d = new Date();
+			var buf = [];
+			buf.push(d.getFullYear());
+			buf.push("-");
+			buf.push(pad2(d.getMonth()+1));
+			buf.push("-");
+			buf.push(pad2(d.getDate()));
+			buf.push(" ");
+			buf.push(pad2(d.getHours()));
+			buf.push(":");
+			buf.push(pad2(d.getMinutes()));
+			buf.push(":");
+			buf.push(pad2(d.getSeconds()));
+			buf.push(".");
+			buf.push(d.getMilliseconds());
+			buf.push(" ["+levelName+"] ");
+			buf.push(this.category);
+			if(this.startTime)
+			{
+				var t = new Date().getTime()-this.startTime;
+				buf.push((" ("+t+"ms)"));
+				this.startTime = null;
+			}
+			buf.push(" -");
+
+			var args = [buf.join("")];
+			var argsLen = arguments.length;
+			for(var i=2; i<argsLen; i++)
+			{
+				args.push(arguments[i]);
+			}
+
+			if(loggingEnabled)
+				console.log.apply(console, args);
+		},
+
+		startTimer: function()
+		{
+			this.startTime = new Date().getTime();
+		}
+	});
 
 	var createLogMethod = function(key, val)
 	{
@@ -84,7 +89,7 @@
 		{
 			if(!loggingEnabled || val > phnq_log.level)
 				return undefined;
-			
+
 			var args = [key, val];
 			var argsLen = arguments.length;
 			for(var i=0; i<argsLen; i++)
@@ -113,19 +118,14 @@
 
 		exec: function(category, fn)
 		{
-	        var log = new Logger(category);
-	        log.info("init logger");
-	        fn(log);
-		},
-
-		getRelPath: function(src)
-		{
-			return require("path").relative(src, __filename);
+			var log = new Logger(category);
+			log.info("init logger");
+			fn(log);
 		}
 	};
 
-	if(typeof(window) == "undefined")
+	if(phnq_core.isServer())
 		module.exports = phnq_log;
-	else
+	else if(phnq_core.isClient())
 		window.phnq_log = phnq_log;
 })();
