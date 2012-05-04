@@ -114,6 +114,7 @@
 		setLevel: function(level)
 		{
 			this.level = Levels[level.toUpperCase()] || Levels.NONE;
+			return this;
 		},
 
 		exec: function(category, fn)
