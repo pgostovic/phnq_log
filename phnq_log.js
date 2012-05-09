@@ -122,6 +122,12 @@
 			var log = new Logger(category);
 			log.info("init logger");
 			fn(log);
+		},
+		
+		getFileName: function()
+		{
+			phnq_core.assertServer();
+			return __filename;
 		}
 	};
 
