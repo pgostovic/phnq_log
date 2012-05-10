@@ -123,7 +123,7 @@
 			log.info("init logger");
 			fn(log);
 		},
-		
+
 		getFileName: function()
 		{
 			phnq_core.assertServer();
@@ -132,7 +132,15 @@
 	};
 
 	if(phnq_core.isServer())
+	{
 		module.exports = phnq_log;
+	}
 	else if(phnq_core.isClient())
+	{
 		window.phnq_log = phnq_log;
+
+	    var logMatch = /[?&]log=([^&]*)[&$]?/.exec(location.search);
+    	var logLevelName = logMatch ? logMatch[1].toUpperCase() : "none";
+    	phnq_log.level = Levels[logLevelName] || Levels.NONE;
+	}
 })();
