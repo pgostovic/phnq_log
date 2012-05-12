@@ -64,17 +64,18 @@
 				buf.push((" ("+t+"ms)"));
 				this.startTime = null;
 			}
-			buf.push(" -");
+			buf.push(" - ");
+			buf.push(arguments[2]);
 
 			var args = [buf.join("")];
 			var argsLen = arguments.length;
-			for(var i=2; i<argsLen; i++)
+			for(var i=3; i<argsLen; i++)
 			{
 				args.push(arguments[i]);
 			}
 
 			if(loggingEnabled)
-				console.log.apply(console, args);
+				console.log.apply(null, args);
 		},
 
 		startTimer: function()
@@ -111,6 +112,11 @@
 
 		Logger: Logger,
 
+		create: function(category)
+		{
+			return new Logger(category);
+		},
+
 		setLevel: function(level)
 		{
 			this.level = Levels[level.toUpperCase()] || Levels.NONE;
@@ -134,6 +140,10 @@
 	if(phnq_core.isServer())
 	{
 		module.exports = phnq_log;
+
+		var argv = require('optimist').argv;
+		var logLevelName = (argv.log || "none").toUpperCase();
+    	phnq_log.level = Levels[logLevelName] || Levels.NONE;
 	}
 	else if(phnq_core.isClient())
 	{
