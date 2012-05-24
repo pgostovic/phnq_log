@@ -75,7 +75,7 @@
 			}
 
 			if(loggingEnabled)
-				console.log.apply(null, args);
+				console.log.apply(console, args);
 		},
 
 		startTimer: function()
