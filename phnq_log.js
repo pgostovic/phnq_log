@@ -114,6 +114,9 @@
 
 		create: function(category)
 		{
+			if(phnq_core.isServer() && category.match(/^\//))
+				category = require("path").basename(category);
+
 			return new Logger(category);
 		},
 
