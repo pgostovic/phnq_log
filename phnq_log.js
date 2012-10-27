@@ -108,7 +108,7 @@
 
 	var phnq_log =
 	{
-		level: Levels.NONE,
+		level: Levels.DEBUG,
 
 		Logger: Logger,
 
