@@ -140,15 +140,7 @@
 		}
 	};
 
-	if(phnq_core.isServer())
-	{
-		module.exports = phnq_log;
-
-		var argv = require('optimist').argv;
-		var logLevelName = (argv.log || "none").toUpperCase();
-    	phnq_log.level = Levels[logLevelName] || Levels.NONE;
-	}
-	else if(phnq_core.isClient())
+	if(phnq_core.isClient())
 	{
 		window.phnq_log = phnq_log;
 
