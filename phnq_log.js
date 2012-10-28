@@ -140,7 +140,11 @@
 		}
 	};
 
-	if(phnq_core.isClient())
+	if(phnq_core.isServer())
+	{
+		module.exports = phnq_log;
+	}
+	else if(phnq_core.isClient())
 	{
 		window.phnq_log = phnq_log;
 
