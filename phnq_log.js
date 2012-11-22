@@ -1,7 +1,14 @@
 (function()
 {
 	var phnq_core = require("phnq_core");
-	var cluster = require("cluster");
+	var cluster = null;
+	try
+	{
+		cluster = require("cluster");
+	}
+	catch(ex)
+	{
+	}
 
 	var loggingEnabled = false;
 	try
