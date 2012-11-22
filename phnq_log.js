@@ -30,6 +30,17 @@
 		return s;
 	};
 
+	var pad3 = function(arg)
+	{
+		var s = new String(arg);
+		if(s.length == 1)
+			s = "00"+s;
+		else if(s.length == 2)
+			s = "0"+s;
+
+		return s;
+	};
+
 	var Logger = phnq_core.clazz(
 	{
 		init: function(category)
@@ -44,6 +55,14 @@
 
 			var d = new Date();
 			var buf = [];
+
+			if(cluster && cluster.worker)
+			{
+				buf.push("(");
+				buf.push(cluster.worker.id);
+				buf.push(") ");
+			}
+
 			buf.push(d.getFullYear());
 			buf.push("-");
 			buf.push(pad2(d.getMonth()+1));
@@ -56,13 +75,7 @@
 			buf.push(":");
 			buf.push(pad2(d.getSeconds()));
 			buf.push(".");
-			buf.push(d.getMilliseconds());
-			if(cluster && cluster.worker)
-			{
-				buf.push(" <");
-				buf.push(cluster.worker.id);
-				buf.push(">");
-			}
+			buf.push(pad3(d.getMilliseconds()));
 			buf.push(" ["+levelName+"] ");
 			buf.push(this.category);
 			if(this.startTime)
