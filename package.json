@@ -6,7 +6,7 @@
   "author"        : "Patrick Gostovic <pg@phnq.org>",
   "repository"    : {"type": "git", "url": "git://github.com/pgostovic/phnq_log.git"},
   "main"          : "phnq_log.js",
-  "version"       : "1.0.2",
+  "version"       : "1.0.3",
   "dependencies"  :
   {
   	"phnq_core": "1.0.x",
