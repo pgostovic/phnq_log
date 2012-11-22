@@ -56,6 +56,12 @@
 			buf.push(pad2(d.getSeconds()));
 			buf.push(".");
 			buf.push(d.getMilliseconds());
+			if(phnq_log.procInfo)
+			{
+				buf.push(" <");
+				buf.push(phnq_log.procInfo);
+				buf.push(">");
+			}
 			buf.push(" ["+levelName+"] ");
 			buf.push(this.category);
 			if(this.startTime)
