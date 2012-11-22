@@ -1,6 +1,7 @@
 (function()
 {
 	var phnq_core = require("phnq_core");
+	var cluster = require("cluster");
 
 	var loggingEnabled = false;
 	try
@@ -56,10 +57,10 @@
 			buf.push(pad2(d.getSeconds()));
 			buf.push(".");
 			buf.push(d.getMilliseconds());
-			if(phnq_log.procInfo)
+			if(cluster && cluster.worker)
 			{
 				buf.push(" <");
-				buf.push(phnq_log.procInfo);
+				buf.push(cluster.worker.id);
 				buf.push(">");
 			}
 			buf.push(" ["+levelName+"] ");
